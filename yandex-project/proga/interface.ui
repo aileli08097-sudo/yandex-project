@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>785</width>
+    <height>617</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Финансовый аналитик</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="mainTab">
+       <attribute name="title">
+        <string>Главная</string>
+       </attribute>
+       <widget class="QPushButton" name="incomeButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>351</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Посмотреть раздел &quot;Доходы&quot;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="expensesButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>90</y>
+          <width>351</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Посмотреть раздел &quot;Расходы&quot;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="balanceButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>140</y>
+          <width>351</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Посмотреть свой баланс</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="spendingButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>190</y>
+          <width>351</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Посмотреть категории трат</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_22">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>251</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Узнайте про свои финансы:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_25">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>20</y>
+          <width>321</width>
+          <height>201</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="rec_1">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>250</y>
+          <width>351</width>
+          <height>91</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="rec_3">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>250</y>
+          <width>351</width>
+          <height>91</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="rec_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>360</y>
+          <width>351</width>
+          <height>91</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="rec_4">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>360</y>
+          <width>351</width>
+          <height>91</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="balanceTab">
+       <attribute name="title">
+        <string>Бюджет</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QToolBox" name="toolBox">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page_incomes">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>743</width>
+             <height>408</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Доходы</string>
+           </attribute>
+           <widget class="QPushButton" name="RegIncButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>201</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Добавить регулярный доход</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="OneIncButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>50</y>
+              <width>201</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Добавить единоразовый доход</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="lookStatIncButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>90</y>
+              <width>201</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Посмотреть статистику доходов</string>
+            </property>
+           </widget>
+           <widget class="QStackedWidget" name="stackedIncomes">
+            <property name="geometry">
+             <rect>
+              <x>240</x>
+              <y>10</y>
+              <width>491</width>
+              <height>411</height>
+             </rect>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="mainIncomes">
+             <widget class="QLabel" name="label_15">
+              <property name="geometry">
+               <rect>
+                <x>150</x>
+                <y>40</y>
+                <width>200</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="regularIncomes">
+             <widget class="QLineEdit" name="regIncEdit">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>131</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Введите сумму:</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_2">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>90</y>
+                <width>151</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Выберите регулярность:</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="regularInc">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="typeRegInc">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>200</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_3">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>151</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Выберите тип дохода:</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="addRegIncButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>250</y>
+                <width>111</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_17">
+              <property name="geometry">
+               <rect>
+                <x>240</x>
+                <y>10</y>
+                <width>181</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Список регулярных доходов:</string>
+              </property>
+             </widget>
+             <widget class="QListWidget" name="listRegInc">
+              <property name="geometry">
+               <rect>
+                <x>240</x>
+                <y>30</y>
+                <width>241</width>
+                <height>341</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="deleteIncButton">
+              <property name="geometry">
+               <rect>
+                <x>318</x>
+                <y>370</y>
+                <width>91</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Удалить</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="oneInccomes">
+             <widget class="QLineEdit" name="incEdit">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="typeInc">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_4">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>111</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Введите сумму:</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_5">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>90</y>
+                <width>151</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Выберите тип дохода:</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="AddOneIncButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>111</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="statIncomes">
+             <widget class="QLabel" name="statIncImg">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>20</y>
+                <width>401</width>
+                <height>321</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_expenses">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>743</width>
+             <height>408</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Расходы</string>
+           </attribute>
+           <widget class="QPushButton" name="RegExButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>201</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Добавить регулярный расход</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="OneExButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>50</y>
+              <width>201</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Добавить единоразовый расход</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="lookStatExButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>90</y>
+              <width>201</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Посмотреть статистику расходов</string>
+            </property>
+           </widget>
+           <widget class="QStackedWidget" name="stackedExpenses">
+            <property name="geometry">
+             <rect>
+              <x>240</x>
+              <y>10</y>
+              <width>491</width>
+              <height>411</height>
+             </rect>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="mainEx">
+             <widget class="QLabel" name="label_6">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>40</y>
+                <width>200</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="regularEx">
+             <widget class="QLabel" name="label_7">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>131</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Введите сумму:</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_8">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>90</y>
+                <width>161</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Выберите регулярность:</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_9">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>171</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Выберите тип расхода:</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="regEx">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="typeRegEx">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>200</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="regExEdit">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="AddRegExButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>250</y>
+                <width>111</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+             </widget>
+             <widget class="QListWidget" name="listRegEx">
+              <property name="geometry">
+               <rect>
+                <x>240</x>
+                <y>30</y>
+                <width>241</width>
+                <height>341</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_16">
+              <property name="geometry">
+               <rect>
+                <x>240</x>
+                <y>10</y>
+                <width>181</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Список регулярных расходов:</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="deleteExButton">
+              <property name="geometry">
+               <rect>
+                <x>318</x>
+                <y>370</y>
+                <width>91</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Удалить</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="oneEx">
+             <widget class="QPushButton" name="addOneExButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>111</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="typeEx">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="ExEdit">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>221</width>
+                <height>31</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_13">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>171</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Введите сумму:</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_14">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>90</y>
+                <width>151</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Выберите тип расхода:</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="statEx">
+             <widget class="QLabel" name="statExImg">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>20</y>
+                <width>401</width>
+                <height>321</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_balace">
+           <attribute name="label">
+            <string>Кошелёк</string>
+           </attribute>
+           <widget class="QLabel" name="label_18">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>10</y>
+              <width>191</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Сумма доходов за этот месяц:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_19">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>90</y>
+              <width>211</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Сумма расходов за этот месяц:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_20">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>170</y>
+              <width>231</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Нынешний баланс:</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="summInc">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>40</y>
+              <width>231</width>
+              <height>31</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="summEx">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>120</y>
+              <width>231</width>
+              <height>31</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="balance">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>200</y>
+              <width>231</width>
+              <height>31</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_26">
+            <property name="geometry">
+             <rect>
+              <x>290</x>
+              <y>30</y>
+              <width>421</width>
+              <height>351</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="spendTab">
+       <attribute name="title">
+        <string>Категории трат</string>
+       </attribute>
+       <widget class="QListWidget" name="spendList">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>261</width>
+          <height>391</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="catSpend">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>50</y>
+          <width>391</width>
+          <height>321</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>785</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
