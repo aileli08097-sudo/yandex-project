@@ -8,7 +8,7 @@ import os
 from PyQt6 import uic
 from PyQt6.QtCore import QTimer
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QStatusBar
 from matplotlib.pyplot import title
 
 template = """<?xml version="1.0" encoding="UTF-8"?>
@@ -1009,91 +1009,139 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
         self.addOneExButton.clicked.connect(self.add)
         self.deleteIncButton.clicked.connect(self.delete)
         self.deleteExButton.clicked.connect(self.delete)
+        self.spends = set()
 
     def delete(self):
         answer = QMessageBox.question(None, 'Удаление', f'Действительно удалить этот элемент?',
                                       QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                                       QMessageBox.StandardButton.Yes)
         if self.sender() == self.deleteIncButton:
-            row_selected = self.listRegInc.currentRow()
+            type, summ, reg = self.listRegInc.currentItem().text().split(' | ')
             if answer == QMessageBox.StandardButton.Yes:
                 cur = self.con.cursor()
-                query = f'DELETE FROM reg_inc WHERE id = {row_selected}'
+                if reg == 'Каждый день':
+                    self.incomes -= int(summ) * 30
+                    self.summBalance -= int(summ) * 30
+                elif reg == 'Каждую неделю':
+                    self.incomes -= int(summ) * 5
+                    self.summBalance -= int(summ) * 5
+                else:
+                    self.incomes -= int(summ)
+                    self.summBalance -= int(summ)
+                query = f"DELETE FROM reg_inc WHERE type = '{type}' AND summ = {summ} AND regular = '{reg}' LIMIT 1"
                 cur.execute(query)
                 self.con.commit()
-                self.listRegInc.takeItem(row_selected)
+                self.listRegInc.takeItem(self.listRegInc.currentRow())
         elif self.sender() == self.deleteExButton:
-            row_selected = self.listRegEx.currentRow()
+            type, summ, reg = self.listRegEx.currentItem().text().split(' | ')
             if answer == QMessageBox.StandardButton.Yes:
                 cur = self.con.cursor()
-                query = f'DELETE FROM reg_ex WHERE id = {row_selected}'
+                if reg == 'Каждый день':
+                    self.expenses -= int(summ) * 30
+                    self.summBalance += int(summ) * 30
+                elif reg == 'Каждую неделю':
+                    self.expenses -= int(summ) * 5
+                    self.summBalance += int(summ) * 5
+                else:
+                    self.expenses -= int(summ)
+                    self.summBalance += int(summ)
+                query = f"DELETE FROM reg_ex WHERE type = '{type}' AND summ = {summ} AND regular = '{reg}' LIMIT 1"
                 cur.execute(query)
                 self.con.commit()
-                self.listRegEx.takeItem(row_selected)
+                self.listRegEx.takeItem(self.listRegEx.currentRow())
 
     def add(self):
         if self.sender() == self.addRegIncButton:
             summ = self.regIncEdit.text()
             reg = self.regularInc.currentText()
             type = self.typeRegInc.currentText()
-            self.listRegInc.addItem(f'{type} | {summ} | {reg}')
-            query = f"INSERT INTO reg_inc(type, summ, regular) VALUES ('{type}', {summ}, '{reg}')"
-            if reg == 'Каждый день':
-                self.incomes += int(summ) * 30
-                self.summBalance += int(summ) * 30
-            elif reg == 'Каждую неделю':
-                self.incomes += int(summ) * 5
-                self.summBalance += int(summ) * 5
-            else:
-                self.incomes += int(summ)
-                self.summBalance += int(summ)
+            try:
+                if int(summ) > 0:
+                    self.listRegInc.addItem(f'{type} | {summ} | {reg}')
+                    query = f"INSERT INTO reg_inc(type, summ, regular) VALUES ('{type}', {summ}, '{reg}')"
+                    if reg == 'Каждый день':
+                        self.incomes += int(summ) * 30
+                        self.summBalance += int(summ) * 30
+                    elif reg == 'Каждую неделю':
+                        self.incomes += int(summ) * 5
+                        self.summBalance += int(summ) * 5
+                    else:
+                        self.incomes += int(summ)
+                        self.summBalance += int(summ)
+                    cur = self.con.cursor()
+                    cur.execute(query)
+                    self.con.commit()
+                else:
+                    self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
+            except Exception:
+                self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
             self.regIncEdit.setText('')
         elif self.sender() == self.AddOneIncButton:
             summ = self.incEdit.text()
             type = self.typeInc.currentText()
-            query = f"INSERT INTO one_inc(type, summ) VALUES ('{type}', {summ})"
-            self.incomes += int(summ)
-            self.summBalance += int(summ)
+            try:
+                if int(summ) > 0:
+                    query = f"INSERT INTO one_inc(type, summ) VALUES ('{type}', {summ})"
+                    self.incomes += int(summ)
+                    self.summBalance += int(summ)
+                    cur = self.con.cursor()
+                    cur.execute(query)
+                    self.con.commit()
+                else:
+                    self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
+            except Exception:
+                self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
             self.incEdit.setText('')
         elif self.sender() == self.AddRegExButton:
             summ = self.regExEdit.text()
             reg = self.regEx.currentText()
             type = self.typeRegEx.currentText()
-            self.listRegEx.addItem(f'{type} | {summ} | {reg}')
-            query = f"INSERT INTO reg_ex(type, summ, regular) VALUES ('{type}', {summ}, '{reg}')"
-            if reg == 'Каждый день':
-                self.expenses += int(summ) * 30
-                self.summBalance -= int(summ) * 30
-            elif reg == 'Каждую неделю':
-                self.expenses += int(summ) * 5
-                self.summBalance -= int(summ) * 5
-            else:
-                self.expenses += int(summ)
-                self.summBalance -= int(summ)
+            try:
+                if int(summ) > 0:
+                    self.listRegEx.addItem(f'{type} | {summ} | {reg}')
+                    query = f"INSERT INTO reg_ex(type, summ, regular) VALUES ('{type}', {summ}, '{reg}')"
+                    if reg == 'Каждый день':
+                        self.expenses += int(summ) * 30
+                        self.summBalance -= int(summ) * 30
+                    elif reg == 'Каждую неделю':
+                        self.expenses += int(summ) * 5
+                        self.summBalance -= int(summ) * 5
+                    else:
+                        self.expenses += int(summ)
+                        self.summBalance -= int(summ)
+                    cur = self.con.cursor()
+                    cur.execute(query)
+                    self.con.commit()
+                else:
+                    self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
+            except Exception:
+                self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
             self.regExEdit.setText('')
         elif self.sender() == self.addOneExButton:
             summ = self.ExEdit.text()
             type = self.typeEx.currentText()
-            query = f"INSERT INTO one_ex(type, summ) VALUES ('{type}', {summ})"
-            self.expenses += int(summ)
-            self.summBalance -= int(summ)
+            try:
+                if int(summ) > 0:
+                    query = f"INSERT INTO one_ex(type, summ) VALUES ('{type}', {summ})"
+                    self.expenses += int(summ)
+                    self.summBalance -= int(summ)
+                    cur = self.con.cursor()
+                    cur.execute(query)
+                    self.con.commit()
+                else:
+                    self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
+            except Exception:
+                self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
             self.ExEdit.setText('')
         self.summInc.setText(f'{self.incomes}')
         self.summEx.setText(f'{self.expenses}')
         self.balance.setText(f'{self.summBalance}')
-        cur = self.con.cursor()
-        cur.execute(query)
-        self.con.commit()
 
     def on_stackInc_changed(self, index):
-        if index == 1:
-            ...
         if index == 3:
             self.show_graf()
 
     def on_stackEx_changed(self, index):
-        if index == 1:
-            ...
         if index == 3:
             self.show_graf()
 
@@ -1122,8 +1170,11 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                 self.data[row[0]] += int(row[1])
             Grafic(self.data, 'graf_spend', 'Категории трат').make()
             self.catSpend.setPixmap(QPixmap('graf_spend.png'))
-            for i, key in enumerate(self.data.keys()):
-                self.spendList.addItem(f'{i + 1}. {key}')
+            self.spendList.clear()
+            for key in self.data.keys():
+                self.spends.add(key)
+            for key in self.spends:
+                self.spendList.addItem(key)
 
     def on_toolbox_changed(self, index):
         if index == 0:
@@ -1150,7 +1201,6 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                     self.data[row[0]] += int(row[1])
             query = 'SELECT type, summ FROM one_inc'
             res = cur.execute(query).fetchall()
-            self.data = {}
             for row in res:
                 self.data[row[0]] = 0
             for row in res:
@@ -1161,7 +1211,6 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
             cur = self.con.cursor()
             query = 'SELECT type, summ, regular FROM reg_ex'
             res = cur.execute(query).fetchall()
-            self.data = {}
             for row in res:
                 self.data[row[0]] = 0
             for row in res:
@@ -1173,7 +1222,6 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                     self.data[row[0]] += int(row[1])
             query = 'SELECT type, summ FROM one_ex'
             res = cur.execute(query).fetchall()
-            self.data = {}
             for row in res:
                 self.data[row[0]] = 0
             for row in res:
@@ -1181,10 +1229,10 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
             Grafic(self.data, 'graf_ex', 'Статистика расходов').make()
             self.statExImg.setPixmap(QPixmap('graf_ex.png'))
         elif self.toolBox.currentIndex() == 2:
-            if self.incomes != 0 and self.expenses != 0:
-                self.data = {'Доходы': self.incomes, 'Расходы': self.expenses}
-            else:
+            if self.incomes == 0 and self.expenses == 0:
                 self.data = {}
+            else:
+                self.data = {'Доходы': self.incomes, 'Расходы': self.expenses}
             Grafic(self.data, 'graf_bal', 'Баланс').make()
             self.label_26.setPixmap(QPixmap('graf_bal.png'))
 
