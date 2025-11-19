@@ -883,7 +883,7 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
-        self.con = sqlite3.connect('finances_db.sqlite')
+        self.con = sqlite3.connect('finances_db.sqlite')  # соединение с базой данных
         self.label_25.setPixmap(QPixmap('catwithcash.jpeg'))  # картинка
         self.label_25.setScaledContents(True)
         self.rec = [
@@ -917,17 +917,17 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
         self.RegExButton.clicked.connect(self.reg_ex)  # кнопка регулярных расходов
         self.OneExButton.clicked.connect(self.one_ex)  # кнопка единоразовых расходов
         self.lookStatExButton.clicked.connect(self.stat_ex)  # кнопка статистики расходов
-        self.label_6.setText('<---\nВыберите раздел')
-        self.label_15.setText('<---\nВыберите раздел')
-        self.summInc.setReadOnly(True)
-        self.summEx.setReadOnly(True)
-        self.balance.setReadOnly(True)
+        self.label_6.setText('<---\nВыберите раздел')  # вывод подсказки
+        self.label_15.setText('<---\nВыберите раздел')  # вывод подсказки
+        self.summInc.setReadOnly(True)  # только для чтения
+        self.summEx.setReadOnly(True)  # только для чтения
+        self.balance.setReadOnly(True)  # только для чтения
         self.incomes = 0  # сумма доходов
         self.expenses = 0  # сумма расходов
         self.summBalance = 0  # суммарный баланс
         self.data = {}
         cur = self.con.cursor()
-        query = 'SELECT type, summ, regular FROM reg_inc'
+        query = 'SELECT type, summ, regular FROM reg_inc'  # считывание и сохранение уже существующих данных из БД
         res = cur.execute(query).fetchall()
         for row in res:
             self.listRegInc.addItem(f'{row[0]} | {row[1]} | {row[2]}')
@@ -953,7 +953,7 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
             self.data[row[0]] += int(row[1])
             self.incomes += int(row[1]) * 30
             self.summBalance += int(row[1]) * 30
-        Grafic(self.data, 'graf_inc', 'Статистика доходов').make()
+        Grafic(self.data, 'graf_inc', 'Статистика доходов').make()  # вывод на график
         self.statIncImg.setPixmap(QPixmap('graf_inc.png'))
         cur = self.con.cursor()
         query = 'SELECT type, summ, regular FROM reg_ex'
@@ -981,6 +981,8 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
             self.data[row[0]] = 0
         for row in res:
             self.data[row[0]] += int(row[1])
+        Grafic(self.data, 'graf_ex', 'Статистика расходов').make()  # вывод на график
+        self.statIncImg.setPixmap(QPixmap('graf_ex.png'))
         self.summInc.setText(str(self.incomes))  # вывод суммы доходов
         self.summEx.setText(str(self.expenses))  # вывод суммы расходов
         self.balance.setText(str(self.summBalance))  # вывод суммарного баланса
@@ -988,36 +990,36 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
         self.statExImg.setScaledContents(True)
         self.label_26.setScaledContents(True)
         self.catSpend.setScaledContents(True)
-        self.tabWidget.currentChanged.connect(self.on_tab_changed)
-        self.toolBox.currentChanged.connect(self.on_toolbox_changed)
-        self.stackedIncomes.currentChanged.connect(self.on_stackInc_changed)
-        self.stackedExpenses.currentChanged.connect(self.on_stackEx_changed)
+        self.tabWidget.currentChanged.connect(self.on_tab_changed)  # при изменении текущей страницы
+        self.toolBox.currentChanged.connect(self.on_toolbox_changed)  # при изменении текущей страницы
+        self.stackedIncomes.currentChanged.connect(self.on_stackInc_changed)  # при изменении текущей страницы
+        self.stackedExpenses.currentChanged.connect(self.on_stackEx_changed)  # при изменении текущей страницы
         self.params = ['Каждый день', 'Каждую неделю', 'Каждый месяц']
-        self.regularInc.addItems(self.params)
-        self.regEx.addItems(self.params)
+        self.regularInc.addItems(self.params)  # добавление вариантов выбора
+        self.regEx.addItems(self.params)  # добавление вариантов выбора
         self.params = ['Заработная плата', 'Рента', 'Карманные деньги', 'Социальные выплаты', 'Другое']
-        self.typeRegInc.addItems(self.params)
+        self.typeRegInc.addItems(self.params)  # добавление вариантов выбора
         self.params = ['Премия', 'Продажа личного имущества', 'Другое']
-        self.typeInc.addItems(self.params)
+        self.typeInc.addItems(self.params)  # добавление вариантов выбора
         self.params = ['Коммунальные услуги', 'Оплата обучения', 'Ипотека', 'Связь', 'Другое']
-        self.typeRegEx.addItems(self.params)
+        self.typeRegEx.addItems(self.params)  # добавление вариантов выбора
         self.params = ['Продукты', 'Услуги', 'Развлечения', 'Товары для дома', 'Транспорт', 'Другое']
-        self.typeEx.addItems(self.params)
-        self.addRegIncButton.clicked.connect(self.add)
-        self.AddOneIncButton.clicked.connect(self.add)
-        self.AddRegExButton.clicked.connect(self.add)
-        self.addOneExButton.clicked.connect(self.add)
-        self.deleteIncButton.clicked.connect(self.delete)
-        self.deleteExButton.clicked.connect(self.delete)
-        self.spends = set()
+        self.typeEx.addItems(self.params)  # добавление вариантов выбора
+        self.addRegIncButton.clicked.connect(self.add)  # кнопка добавления
+        self.AddOneIncButton.clicked.connect(self.add)  # кнопка добавления
+        self.AddRegExButton.clicked.connect(self.add)  # кнопка добавления
+        self.addOneExButton.clicked.connect(self.add)  # кнопка добавления
+        self.deleteIncButton.clicked.connect(self.delete)  # кнопка удаления
+        self.deleteExButton.clicked.connect(self.delete)  # кнопка удаления
+        self.spends = set()  # категории трат
 
-    def delete(self):
+    def delete(self):  # удаление элементов
         answer = QMessageBox.question(None, 'Удаление', f'Действительно удалить этот элемент?',
                                       QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                                      QMessageBox.StandardButton.Yes)
-        if self.sender() == self.deleteIncButton:
-            type, summ, reg = self.listRegInc.currentItem().text().split(' | ')
-            if answer == QMessageBox.StandardButton.Yes:
+                                      QMessageBox.StandardButton.Yes)  # высвечивание вопроса
+        if self.sender() == self.deleteIncButton:  # удаление регулярных доходов
+            type, summ, reg = self.listRegInc.currentItem().text().split(' | ')  # считывание выбранного дохода
+            if answer == QMessageBox.StandardButton.Yes:  # если ответ да, то удаляем
                 cur = self.con.cursor()
                 if reg == 'Каждый день':
                     self.incomes -= int(summ) * 30
@@ -1028,13 +1030,13 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                 else:
                     self.incomes -= int(summ)
                     self.summBalance -= int(summ)
-                query = f"DELETE FROM reg_inc WHERE type = '{type}' AND summ = {summ} AND regular = '{reg}' LIMIT 1"
+                query = f"DELETE FROM reg_inc WHERE id = (SELECT id WHERE type = '{type}' AND summ = {summ} AND regular = '{reg}' LIMIT 1);"
                 cur.execute(query)
                 self.con.commit()
-                self.listRegInc.takeItem(self.listRegInc.currentRow())
-        elif self.sender() == self.deleteExButton:
-            type, summ, reg = self.listRegEx.currentItem().text().split(' | ')
-            if answer == QMessageBox.StandardButton.Yes:
+                self.listRegInc.takeItem(self.listRegInc.currentRow())  # удаление из списка
+        elif self.sender() == self.deleteExButton:  # удаление регулярных расходов
+            type, summ, reg = self.listRegEx.currentItem().text().split(' | ')  # считывание выбранного столбца
+            if answer == QMessageBox.StandardButton.Yes:  # если даа, то удаляем
                 cur = self.con.cursor()
                 if reg == 'Каждый день':
                     self.expenses -= int(summ) * 30
@@ -1045,18 +1047,18 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                 else:
                     self.expenses -= int(summ)
                     self.summBalance += int(summ)
-                query = f"DELETE FROM reg_ex WHERE type = '{type}' AND summ = {summ} AND regular = '{reg}' LIMIT 1"
+                query = f"DELETE FROM reg_ex WHERE id = (SELECT id WHERE type = '{type}' AND summ = {summ} AND regular = '{reg}' LIMIT 1);"
                 cur.execute(query)
                 self.con.commit()
-                self.listRegEx.takeItem(self.listRegEx.currentRow())
+                self.listRegEx.takeItem(self.listRegEx.currentRow())  # удаление из списка
 
-    def add(self):
-        if self.sender() == self.addRegIncButton:
-            summ = self.regIncEdit.text()
-            reg = self.regularInc.currentText()
-            type = self.typeRegInc.currentText()
-            try:
-                if int(summ) > 0:
+    def add(self):  # добавление
+        if self.sender() == self.addRegIncButton:  # добавление регулярных доходов
+            summ = self.regIncEdit.text()  # считывание суммы
+            reg = self.regularInc.currentText()  # считывание регулярности
+            type = self.typeRegInc.currentText()  # считывание типа
+            try:  # проверка, является ли числом
+                if int(summ) > 0:  # проверка, больше ли нуля
                     self.listRegInc.addItem(f'{type} | {summ} | {reg}')
                     query = f"INSERT INTO reg_inc(type, summ, regular) VALUES ('{type}', {summ}, '{reg}')"
                     if reg == 'Каждый день':
@@ -1071,33 +1073,33 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                     cur = self.con.cursor()
                     cur.execute(query)
                     self.con.commit()
-                else:
+                else:  # если меньше, ты вывод ошибки
                     self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
-            except Exception:
+            except Exception:  # если нет, то вывод ошибки
                 self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
-            self.regIncEdit.setText('')
-        elif self.sender() == self.AddOneIncButton:
-            summ = self.incEdit.text()
-            type = self.typeInc.currentText()
-            try:
-                if int(summ) > 0:
+            self.regIncEdit.setText('')  # обнуление строки ввода
+        elif self.sender() == self.AddOneIncButton:  # добавление единоразового дохода
+            summ = self.incEdit.text()  # считывание суммы
+            type = self.typeInc.currentText()  # считывание типа
+            try:  # проверка, является ли числом
+                if int(summ) > 0:  # проверка, больше ли нуля
                     query = f"INSERT INTO one_inc(type, summ) VALUES ('{type}', {summ})"
                     self.incomes += int(summ)
                     self.summBalance += int(summ)
                     cur = self.con.cursor()
                     cur.execute(query)
                     self.con.commit()
-                else:
+                else:  # если меньше, ты вывод ошибки
                     self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
-            except Exception:
+            except Exception:  # если нет, то вывод ошибки
                 self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
-            self.incEdit.setText('')
-        elif self.sender() == self.AddRegExButton:
-            summ = self.regExEdit.text()
-            reg = self.regEx.currentText()
-            type = self.typeRegEx.currentText()
-            try:
-                if int(summ) > 0:
+            self.incEdit.setText('')  # обнуление строки ввода
+        elif self.sender() == self.AddRegExButton:  # добавление регулярных расходов
+            summ = self.regExEdit.text()  # считывание суммы
+            reg = self.regEx.currentText()  # считывание регулярности
+            type = self.typeRegEx.currentText()  # считывание типа
+            try:  # проверка, является ли числом
+                if int(summ) > 0:  # проверка, больше ли нуля
                     self.listRegEx.addItem(f'{type} | {summ} | {reg}')
                     query = f"INSERT INTO reg_ex(type, summ, regular) VALUES ('{type}', {summ}, '{reg}')"
                     if reg == 'Каждый день':
@@ -1112,43 +1114,43 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                     cur = self.con.cursor()
                     cur.execute(query)
                     self.con.commit()
-                else:
+                else:  # если меньше, ты вывод ошибки
                     self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
-            except Exception:
+            except Exception:  # если нет, то вывод ошибки
                 self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
-            self.regExEdit.setText('')
-        elif self.sender() == self.addOneExButton:
-            summ = self.ExEdit.text()
-            type = self.typeEx.currentText()
-            try:
-                if int(summ) > 0:
+            self.regExEdit.setText('')  # обнуление строки ввода
+        elif self.sender() == self.addOneExButton:  # добавление единоразового расхода
+            summ = self.ExEdit.text()  # считывание суммы
+            type = self.typeEx.currentText()  # считывание типа
+            try:  # проверка, является ли числом
+                if int(summ) > 0:  # проверка, больше ли нуля
                     query = f"INSERT INTO one_ex(type, summ) VALUES ('{type}', {summ})"
                     self.expenses += int(summ)
                     self.summBalance -= int(summ)
                     cur = self.con.cursor()
                     cur.execute(query)
                     self.con.commit()
-                else:
+                else:  # если меньше, ты вывод ошибки
                     self.statusBar().showMessage('Ошибка, сумма должна быть больше нуля.', 5000)
-            except Exception:
+            except Exception:  # если нет, то вывод ошибки
                 self.statusBar().showMessage('Ошибка, сумма должна быть числом.', 5000)
-            self.ExEdit.setText('')
-        self.summInc.setText(f'{self.incomes}')
-        self.summEx.setText(f'{self.expenses}')
-        self.balance.setText(f'{self.summBalance}')
+            self.ExEdit.setText('')  # обнуление строки ввода
+        self.summInc.setText(f'{self.incomes}')  # обновление доходов
+        self.summEx.setText(f'{self.expenses}')  # обновление расходов
+        self.balance.setText(f'{self.summBalance}')  # обновление баланса
 
     def on_stackInc_changed(self, index):
-        if index == 3:
+        if index == 3:  # если на 3 странице, то показать граф
             self.show_graf()
 
     def on_stackEx_changed(self, index):
-        if index == 3:
+        if index == 3:  # если на 3 странице, то показать граф
             self.show_graf()
 
     def on_tab_changed(self, index):
-        if index == 1:
+        if index == 1:  # если на 1 странице, то в зависимости от страницы
             self.on_toolbox_changed(self.toolBox.currentIndex())
-        elif index == 2:
+        elif index == 2:  # если на 2 странице, то считать данные и обновить категории трат
             self.data = {}
             cur = self.con.cursor()
             query = 'SELECT type, summ, regular FROM reg_ex'
@@ -1177,11 +1179,11 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
                 self.spendList.addItem(key)
 
     def on_toolbox_changed(self, index):
-        if index == 0:
+        if index == 0:  # если на 0 странице, то показать главную страницу
             self.stackedIncomes.setCurrentIndex(0)
-        elif index == 1:
+        elif index == 1:  # если на 1 странице, то показать главную страницу
             self.stackedExpenses.setCurrentIndex(0)
-        elif index == 2:
+        elif index == 2:  # если на 2 странице, то показать граф
             self.show_graf()
 
     def show_graf(self):  # метод вывода графиков
@@ -1276,7 +1278,7 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
 class DatabaseManager:
     def __init__(self, db_name='finances_db.sqlite'):
         self.db_name = db_name
-        self.required_tables = {
+        self.required_tables = {  # нужные таблицы в БД
             'reg_inc': [
                 ('id', 'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'),
                 ('type', 'TEXT NOT NULL'),
@@ -1309,36 +1311,36 @@ class DatabaseManager:
     def initialize_database(self):
         app = QApplication(sys.argv)
 
-        if self._is_database_valid():
+        if self._is_database_valid():  # если найдена подходящая база
             answer = QMessageBox.question(
                 None,
                 'Найдена БД',
                 'Найдена подходящая база данных, хотите загрузить?',
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                 QMessageBox.StandardButton.Yes
-            )
+            )  # вопрос, загружать ли ее
 
-            if answer == QMessageBox.StandardButton.No:
+            if answer == QMessageBox.StandardButton.No:  # если нет, то создание новой
                 self._create_new_database()
-        else:
+        else:  # если не найдена, создание новой
             self._create_new_database()
         conn = sqlite3.connect(self.db_name)
         return conn
 
-    def _is_database_valid(self):
-        if not os.path.exists(self.db_name):
+    def _is_database_valid(self):  # подходит ли база данных
+        if not os.path.exists(self.db_name):  # если нет подходящей БД
             return False
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-
+        # иначе:
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        existing_tables = {row[0] for row in cursor.fetchall()}
+        existing_tables = {row[0] for row in cursor.fetchall()}  # считывание находящихся таблиц
 
-        if not self.required_tables.keys() != existing_tables:
-            conn.close()
+        if self.required_tables.keys() != existing_tables:
+            conn.close()  # если нет всех нужных таблицы
             return False
 
-        for table_name, required_columns in self.required_tables.items():
+        for table_name, required_columns in self.required_tables.items():  # подходят ли столбцы в таблицах
             cursor.execute(f"PRAGMA table_info({table_name})")
             existing_columns = {row[1] for row in cursor.fetchall()}
 
@@ -1350,13 +1352,13 @@ class DatabaseManager:
         conn.close()
         return True
 
-    def _create_new_database(self):
-        if os.path.exists(self.db_name):
+    def _create_new_database(self):  # создание новой БД
+        if os.path.exists(self.db_name):  # если есть, то удаляем
             os.remove(self.db_name)
 
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-
+        # создание нужных таблиц
         cursor.execute('''
             CREATE TABLE reg_inc (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
