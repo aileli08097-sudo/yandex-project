@@ -877,6 +877,7 @@ class Grafic:  # класс, создающий круговую диаграм�
         plt.title(self.title)
         plt.savefig(self.name)
 
+
 class DatabaseManager:
     def __init__(self, db_name='finances_db.sqlite'):
         self.db_name = db_name
@@ -1009,8 +1010,6 @@ class DatabaseManager:
         conn.close()
 
 
-
-
 class FinancialAnalyst(QMainWindow):  # создание самого приложения
     def __init__(self):
         super().__init__()
@@ -1018,7 +1017,7 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
         uic.loadUi(f, self)
 
         self.db_manager = DatabaseManager()
-        self.con = self.db_manager.initialize_database(self) # соединение с базой данных
+        self.con = self.db_manager.initialize_database(self)  # соединение с базой данных
 
         self.label_25.setPixmap(QPixmap('catwithcash.jpeg'))  # картинка
         self.label_25.setScaledContents(True)
@@ -1172,7 +1171,7 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
         self.deleteIncButton.clicked.connect(self.delete)  # кнопка удаления
         self.deleteExButton.clicked.connect(self.delete)  # кнопка удаления
 
-    def closeEvent(self, event): # Закрытие соединения с базой при выходе
+    def closeEvent(self, event):  # Закрытие соединения с базой при выходе
         if hasattr(self, 'con'):
             self.con.close()
         event.accept()
