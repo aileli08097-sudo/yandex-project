@@ -1369,8 +1369,17 @@ class FinancialAnalyst(QMainWindow):  # создание самого прило
             self.stackedIncomes.setCurrentIndex(0)
         elif index == 1:  # если на 1 странице, то показать главную страницу
             self.stackedExpenses.setCurrentIndex(0)
+            if self.summBalance < 0:
+                self.statusBar().showMessage('Баланс меньше нуля, нельзя тратить деньги!!', 5000)
+                self.regExEdit.setReadOnly(True)
+                self.ExEdit.setReadOnly(True)
+            else:
+                self.regExEdit.setReadOnly(False)
+                self.ExEdit.setReadOnly(False)
         elif index == 2:  # если на 2 странице, то показать граф
             self.show_graf()
+            if self.summBalance < 0:
+                self.statusBar().showMessage('Баланс меньше нуля!!', 5000)
 
     def show_graf(self):  # метод вывода графиков
         self.data = {}
